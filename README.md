@@ -26,6 +26,28 @@ its nearest rivals. The honest number on 72 subjects is a modest one.
 
 The full paper is in [`paper/handwriting_uncertainty.pdf`](paper/handwriting_uncertainty.pdf).
 
+<table align="center">
+  <tr>
+    <th></th><th>velocity</th><th>effort (v·p)</th><th>rgb (v·p·e)</th>
+  </tr>
+  <tr>
+    <td align="right"><b>Healthy</b></td>
+    <td><img src="docs/img/velocity_hc.png" width="150"></td>
+    <td><img src="docs/img/effort_hc.png" width="150"></td>
+    <td><img src="docs/img/rgb_vpe_hc.png" width="150"></td>
+  </tr>
+  <tr>
+    <td align="right"><b>Parkinson's</b></td>
+    <td><img src="docs/img/velocity_pd.png" width="150"></td>
+    <td><img src="docs/img/effort_pd.png" width="150"></td>
+    <td><img src="docs/img/rgb_vpe_pd.png" width="150"></td>
+  </tr>
+</table>
+
+<p align="center"><i>Structure-preserving colour encoding of the Task-1 Archimedean spiral
+(PaHaW). Each pen sample is coloured by a kinematic channel; the Parkinsonian spiral
+reads slower, tighter and lower-effort.</i></p>
+
 ---
 
 ## Project Structure
@@ -102,13 +124,17 @@ Results are written to `src/experiments/grid_sweep/results/all_heads_repeated/`.
 
 ## Evaluation Protocol
 
-| Loop  | Folds | Splitter              | Purpose                          |
-|-------|-------|-----------------------|----------------------------------|
-| Outer | 10    | StratifiedGroupKFold  | Unbiased test-set evaluation     |
-| Inner | 3     | StratifiedKFold       | Per-fold head hyperparameter tuning |
+| Loop  | Folds | Splitter                              | Purpose                             |
+|-------|-------|---------------------------------------|-------------------------------------|
+| Outer | 10    | StratifiedGroupKFold (≡ StratifiedKFold here) | Unbiased test-set evaluation |
+| Inner | 3     | StratifiedKFold                       | Per-fold head hyperparameter tuning |
 
-`StratifiedGroupKFold` (subject = group) preserves class balance **and** prevents
-subject-level leakage. The protocol is repeated over **3 seeds (42, 43, 44)** → 30
+Because we use **only Task 1**, every subject contributes exactly **one** recording,
+so *subject = sample*: each group has size 1 and `StratifiedGroupKFold` **reduces to
+an ordinary `StratifiedKFold`**. There is no cross-task subject leakage to prevent —
+it is excluded **by construction** (one recording per subject), not by the splitter.
+The group-aware splitter is kept in code only as a harmless guard (a no-op when
+groups are singletons). The protocol is repeated over **3 seeds (42, 43, 44)** → 30
 test folds per cell. Model comparisons use the **Nadeau–Bengio corrected resampled
 paired t-test**, which repairs the optimistic variance of the naive fold-wise test.
 
