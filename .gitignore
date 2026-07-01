@@ -1,0 +1,79 @@
+# AI / LLM assistant artifacts
+.claude/
+.agents/
+CLAUDE.md
+AGENTS.md
+HISTORY.md
+ISSUES.md
+memory/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+.venv/
+venv/
+
+# Hydra outputs
+outputs/
+multirun/
+.hydra/
+
+# Data — never commit raw or processed data
+# (data/raw may be a symlink to a local dataset mount; never publish it)
+/data/raw
+data/raw/*
+data/processed/*
+!data/processed/.gitkeep
+
+# Experiment outputs — results CSVs committed, large artifacts not
+src/experiments/*/outputs/
+src/experiments/*/checkpoints/
+*.pt
+*.pth
+*.ckpt
+
+# W&B
+wandb/
+
+# Slides deck (open-slide) — Node build artifacts
+slides/**/node_modules/
+slides/**/dist/
+node_modules/
+
+# LaTeX build artifacts (paper/ keeps only .tex/.bib/.sty/.pdf)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+paper/*.log
+paper/*.out
+texput.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Env files
+.env
+*.env
